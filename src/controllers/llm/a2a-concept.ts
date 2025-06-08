@@ -28,9 +28,7 @@ export async function sendMessageController(c: Context, next: Next) {
         - Analyze weather
         - Answer weather-related questions
 
-        , respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A
-      
-`,
+        , respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle locally`,
       },
       ...messages.map((msg: any) => ({
         role: msg.role,
