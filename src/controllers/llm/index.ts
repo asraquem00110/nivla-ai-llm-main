@@ -6,11 +6,27 @@ const ollama = new Ollama({ host: "http://127.0.0.1:11434" });
 export async function sendMessageController(c: Context, next: Next) {
   const body = await c.req.json();
   const { messages, tools } = body;
-  console.log("Received body:", body);
 
-  // return c.json({
-  //   message: "Message received",
-  // });
+  let formattedOllamaTools: any[] = [];
+  if (tools && tools.length > 0) {
+    formattedOllamaTools = tools.map((tool: any) => {
+      return {
+        type: "function",
+        function: {
+          name: tool.name,
+          description: tool.description,
+          parameters: {
+            type: "object",
+            properties: tool.inputSchema.properties,
+            required: tool.inputSchema.required,
+          },
+        },
+      };
+    });
+  }
+
+  // console.log(JSON.stringify(formattedOllamaTools, null, 4));
+  // return;
 
   const response = await ollama.chat({
     model: "qwen3:0.6b",
@@ -37,14 +53,14 @@ export async function sendMessageController(c: Context, next: Next) {
         content: msg.message,
       })),
     ],
-    stream: true,
+    stream: false,
     keep_alive: 10,
-    tools,
+    tools: formattedOllamaTools,
   });
 
-  // /* If no streaming or stream: false */
-  // console.log(response);
-  // return c.json(response);
+  /* If no streaming or stream: false */
+  console.log(response);
+  return c.json(response);
 
   const stream = new ReadableStream({
     async start(controller) {
