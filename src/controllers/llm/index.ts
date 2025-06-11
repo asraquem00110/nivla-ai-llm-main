@@ -40,6 +40,7 @@ export async function sendMessageController(c: Context, next: Next) {
         Capabilities of Agent C:
         - Analyze weather
         - Answer weather-related questions
+        - Answer How Hot or Cold places are
 
         Respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A.
         If agent calling is not needed and tools are available, check if any tool should be used to handle the user's input. If so, respond accordingly.
