@@ -25,15 +25,12 @@ export async function sendMessageController(c: Context, next: Next) {
     });
   }
 
-  // console.log(JSON.stringify(formattedOllamaTools, null, 4));
-  // return;
-
-  const response = await ollama.chat({
-    model: "qwen3:0.6b",
-    messages: [
-      {
-        role: "system",
-        content: `You are Agent A. Decide if the user's input should be handled by another agent.
+  const haveTools = formattedOllamaTools.length > 0 ? true : false;
+  // Build llmMessages with system prompt
+  const llmMessages = [
+    {
+      role: "system",
+      content: `You are Agent A. Decide if the user's input should be handled by another agent.
         
         Capabilities of Agent B:
         - Analyze invoices
@@ -44,27 +41,64 @@ export async function sendMessageController(c: Context, next: Next) {
         - Analyze weather
         - Answer weather-related questions
 
-        , respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A
-      
-`,
-      },
-      ...messages.map((msg: any) => ({
-        role: msg.role,
-        content: msg.message,
-      })),
-    ],
-    stream: false,
+        Respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A.
+        If agent calling is not needed and tools are available, check if any tool should be used to handle the user's input. If so, respond accordingly.
+      `,
+    },
+    ...messages.map((msg: any) => ({
+      role: msg.role,
+      content: msg.message,
+    })),
+  ];
+
+  // const response = haveTools
+  //   ? await ollama.chat({
+  //       model: "qwen3:0.6b",
+  //       messages: llmMessages,
+  //       keep_alive: 10,
+  //       stream: false,
+  //       tools: formattedOllamaTools,
+  //     })
+  //   : await ollama.chat({
+  //       model: "qwen3:0.6b",
+  //       messages: llmMessages,
+  //       keep_alive: 10,
+  //       stream: true,
+  //       tools: formattedOllamaTools,
+  //     });
+
+  // if (haveTools) {
+  //   // Non-streaming response
+  //   console.log(response);
+  //   return c.json(response);
+  // }
+
+  const response = await ollama.chat({
+    model: "qwen3:0.6b",
+    messages: llmMessages,
     keep_alive: 10,
+    stream: true,
     tools: formattedOllamaTools,
   });
-
-  /* If no streaming or stream: false */
-  console.log(response);
-  return c.json(response);
-
+  // Streaming response
   const stream = new ReadableStream({
     async start(controller) {
-      for await (const part of response) {
+      if (typeof (response as any)[Symbol.asyncIterator] === "function") {
+        for await (const part of response as AsyncIterable<any>) {
+          const data = `data: ${JSON.stringify(part.message.content)}\n\n`;
+          const toolsCalled = `tools_called: ${JSON.stringify(
+            part.message.tool_calls
+          )}\n\n`;
+          const doneReason = `done_reason: ${part.done_reason}\n\n`;
+
+          controller.enqueue(new TextEncoder().encode(data));
+          controller.enqueue(new TextEncoder().encode(toolsCalled));
+          controller.enqueue(new TextEncoder().encode(doneReason));
+        }
+      } else {
+        // Handle the case where response is a single object
+        const part = response as any;
+        console.log("SINGLE PART:", JSON.stringify(part, null, 4));
         const data = `data: ${JSON.stringify(part.message.content)}\n\n`;
         const toolsCalled = `tools_called: ${JSON.stringify(
           part.message.tool_calls
@@ -74,7 +108,6 @@ export async function sendMessageController(c: Context, next: Next) {
         controller.enqueue(new TextEncoder().encode(data));
         controller.enqueue(new TextEncoder().encode(toolsCalled));
         controller.enqueue(new TextEncoder().encode(doneReason));
-        // console.log("Streamed part:", part);
       }
       controller.close();
     },
