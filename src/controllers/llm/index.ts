@@ -7,6 +7,8 @@ export async function sendMessageController(c: Context, next: Next) {
   const body = await c.req.json();
   const { messages, tools } = body;
 
+  console.log(messages);
+
   let formattedOllamaTools: any[] = [];
   if (tools && tools.length > 0) {
     formattedOllamaTools = tools.map((tool: any) => {
@@ -28,24 +30,24 @@ export async function sendMessageController(c: Context, next: Next) {
   const haveTools = formattedOllamaTools.length > 0 ? true : false;
   // Build llmMessages with system prompt
   const llmMessages = [
-    {
-      role: "system",
-      content: `You are Agent A. Decide if the user's input should be handled by another agent.
-        
-        Capabilities of Agent B:
-        - Analyze invoices
-        - Answer tax-related questions
-        - Classify expense receipts
+    // {
+    //   role: "system",
+    //   content: `You are Agent A. Decide if the user's input should be handled by another agent.
 
-        Capabilities of Agent C:
-        - Analyze weather
-        - Answer weather-related questions
-        - Answer How Hot or Cold places are
+    //     Capabilities of Agent B:
+    //     - Analyze invoices
+    //     - Answer tax-related questions
+    //     - Classify expense receipts
 
-        Respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A.
-        If agent calling is not needed and tools are available, check if any tool should be used to handle the user's input. If so, respond accordingly.
-      `,
-    },
+    //     Capabilities of Agent C:
+    //     - Analyze weather
+    //     - Answer weather-related questions
+    //     - Answer How Hot or Cold places are
+
+    //     Respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A.
+    //     If agent calling is not needed and tools are available, check if any tool should be used to handle the user's input. If so, respond accordingly.
+    //   `,
+    // },
     ...messages.map((msg: any) => ({
       role: msg.role,
       content: msg.message,
