@@ -77,7 +77,7 @@ export async function sendMessageController(c: Context, next: Next) {
   // }
 
   const response = await ollama.chat({
-    model: "qwen3:0.6b",
+    model: "qwen3:1.7b",
     messages: llmMessages,
     keep_alive: 10,
     stream: true,
