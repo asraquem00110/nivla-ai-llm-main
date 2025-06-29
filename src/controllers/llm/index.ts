@@ -5,9 +5,9 @@ const ollama = new Ollama({ host: "http://127.0.0.1:11434" });
 
 export async function sendMessageController(c: Context, next: Next) {
   const body = await c.req.json();
-  const { messages, tools } = body;
+  const { messages, tools, file } = body;
 
-  console.log(messages);
+  console.log("FILE:", file);
 
   let formattedOllamaTools: any[] = [];
   if (tools && tools.length > 0) {
