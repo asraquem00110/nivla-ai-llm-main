@@ -12,7 +12,7 @@ app.use(
     origin: ["http://localhost:5173"],
     allowHeaders: ["*"],
     allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
+    exposeHeaders: ["Content-Length", "X-Kuma-Revision", "Content-Type"],
     maxAge: 600,
     credentials: true,
   })
