@@ -1,3 +1,4 @@
+import { EmbeddingUtility } from "@/utils/embedding-utility";
 import { FileUploadUtility } from "@/utils/file-upload-utility";
 import type { Context, Next } from "hono";
 import { Ollama } from "ollama";
@@ -11,7 +12,8 @@ export async function sendMessageController(c: Context, next: Next) {
   console.log("FILE:", file);
 
   if (file) {
-    await FileUploadUtility.upload(file as File);
+    // await FileUploadUtility.upload(file as File);
+    await EmbeddingUtility.embedFile(file as File);
   }
 
   const messages = JSON.parse(reqMessages as string);

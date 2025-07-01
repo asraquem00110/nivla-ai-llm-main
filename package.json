@@ -17,6 +17,9 @@
     "http-status-codes": "^2.3.0",
     "langchain": "^0.3.27",
     "ollama": "^0.5.16",
+    "openai": "^5.8.2",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^5.3.31",
     "zod": "^3.25.51"
   },
   "devDependencies": {
