@@ -1,3 +1,4 @@
+import { FileUploadUtility } from "@/utils/file-upload-utility";
 import type { Context, Next } from "hono";
 import { Ollama } from "ollama";
 
@@ -8,6 +9,10 @@ export async function sendMessageController(c: Context, next: Next) {
   const { messages: reqMessages, tools: reqTools, file } = body;
 
   console.log("FILE:", file);
+
+  if (file) {
+    await FileUploadUtility.upload(file as File);
+  }
 
   const messages = JSON.parse(reqMessages as string);
   const tools = JSON.parse(reqTools as string);
