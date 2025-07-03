@@ -1,4 +1,4 @@
-import { EmbeddingUtility } from "@/utils/embedding-utility";
+import { RagUtility } from "@/utils/rag-utility";
 import { FileUploadUtility } from "@/utils/file-upload-utility";
 import type { Context, Next } from "hono";
 import { Ollama } from "ollama";
@@ -6,18 +6,34 @@ import { Ollama } from "ollama";
 const ollama = new Ollama({ host: "http://127.0.0.1:11434" });
 
 export async function sendMessageController(c: Context, next: Next) {
+  let ragContent = null;
   const body = await c.req.parseBody();
   const { messages: reqMessages, tools: reqTools, file } = body;
+
+  const messages = JSON.parse(reqMessages as string) as {
+    role: string;
+    message: string;
+  }[];
+  const tools = JSON.parse(reqTools as string);
 
   console.log("FILE:", file);
 
   if (file) {
     // await FileUploadUtility.upload(file as File);
-    await EmbeddingUtility.embedFile(file as File);
+    const lastMessage =
+      messages[(messages.length - 1) as unknown as number]?.message;
+    ragContent = await RagUtility.embedFile(
+      file as File,
+      lastMessage as unknown as string
+    );
   }
 
-  const messages = JSON.parse(reqMessages as string);
-  const tools = JSON.parse(reqTools as string);
+  if (ragContent && ragContent !== "") {
+    messages.push({
+      role: "system",
+      message: `Context: ${ragContent}`,
+    });
+  }
 
   let formattedOllamaTools: any[] = [];
   if (tools && tools.length > 0) {
