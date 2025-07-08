@@ -3,7 +3,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 // import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/huggingface_transformers";
 // import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { pipeline } from "@Xenova/transformers";
+import { pipeline } from "@xenova/transformers";
 
 export class RagUtility {
   static embedFile = async (file: File, question: string) => {
