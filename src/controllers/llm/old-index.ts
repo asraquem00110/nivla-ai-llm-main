@@ -53,12 +53,54 @@ export async function sendMessageController(c: Context, next: Next) {
     });
   }
 
+  const haveTools = formattedOllamaTools.length > 0 ? true : false;
+  // Build llmMessages with system prompt
   const llmMessages = [
+    // {
+    //   role: "system",
+    //   content: `You are Agent A. Decide if the user's input should be handled by another agent.
+
+    //     Capabilities of Agent B:
+    //     - Analyze invoices
+    //     - Answer tax-related questions
+    //     - Classify expense receipts
+
+    //     Capabilities of Agent C:
+    //     - Analyze weather
+    //     - Answer weather-related questions
+    //     - Answer How Hot or Cold places are
+
+    //     Respond with: <agent>Agent {AgentName}</agent> if agent is need to be called else handle by Agent A.
+    //     If agent calling is not needed and tools are available, check if any tool should be used to handle the user's input. If so, respond accordingly.
+    //   `,
+    // },
     ...messages.map((msg: any) => ({
       role: msg.role,
       content: msg.message,
     })),
   ];
+
+  // const response = haveTools
+  //   ? await ollama.chat({
+  //       model: "qwen3:0.6b",
+  //       messages: llmMessages,
+  //       keep_alive: 10,
+  //       stream: false,
+  //       tools: formattedOllamaTools,
+  //     })
+  //   : await ollama.chat({
+  //       model: "qwen3:0.6b",
+  //       messages: llmMessages,
+  //       keep_alive: 10,
+  //       stream: true,
+  //       tools: formattedOllamaTools,
+  //     });
+
+  // if (haveTools) {
+  //   // Non-streaming response
+  //   console.log(response);
+  //   return c.json(response);
+  // }
 
   const response = await ollama.chat({
     model: "qwen3:1.7b",
