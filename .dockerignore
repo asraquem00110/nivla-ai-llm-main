@@ -1,0 +1,14 @@
+node_modules/
+dist/
+
+*-lock.json
+*.lock
+
+.env
+.env.*
+.env-*
+
+!**.example
+
+.DS_Store
+*.tsbuildinfo

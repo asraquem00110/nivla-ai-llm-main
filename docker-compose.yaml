@@ -1,0 +1,13 @@
+name: nivla-ai-main-backend
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      APP_PORT: ${APP_PORT}
+      HUGGINGFACE_API_KEY: ${HUGGINGFACE_API_KEY}
