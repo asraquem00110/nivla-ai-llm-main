@@ -54,6 +54,23 @@ export async function sendMessageController(c: Context, next: Next) {
   }
 
   const llmMessages = [
+    {
+      role: "system",
+      content: `You are a helpful assistant.
+
+You have access to a set of tools that can be called to help answer questions. If a tool is needed, respond with a JSON object in the following format:
+
+{
+  "tool": "<tool_name>",
+  "parameters": { ... }
+}
+
+If you do not need to call a tool, respond with a plain text answer.
+
+You will also be provided with context relevant to the question. Use this context to guide your answer. If the context is insufficient, fall back on your own knowledge to respond.
+
+If you are unsure or cannot answer reliably, state that clearly.`,
+    },
     ...messages.map((msg: any) => ({
       role: msg.role,
       content: msg.message,
