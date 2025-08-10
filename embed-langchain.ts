@@ -97,51 +97,6 @@ async function main() {
   console.log("Vector store created successfully:", vectorStore);
 
   return;
-  const chunkTensor = await embedder(chunkString, {
-    pooling: "mean",
-    normalize: true,
-  });
-
-  const chunkEmbeddings: number[][] = [];
-  const data = Array.from(chunkTensor.data);
-  const dim = chunkTensor.dims?.[1];
-
-  if (dim === undefined) {
-    throw new Error("chunkTensor.dims[1] is undefined.");
-  }
-
-  for (let i = 0; i < data.length; i += dim) {
-    chunkEmbeddings.push(data.slice(i, i + dim));
-  }
-
-  const ids = chunkString.map((content, index) => crypto.randomUUID.toString());
-
-  const chromaData = {
-    documents: chunkString,
-    embeddings: chunkEmbeddings,
-    ids,
-  };
-
-  const response = await fetch(
-    `${CHROMA_URL}/tenants/${TENANT_NAME}/databases/${DATABASE_NAME}/collections/${COLLECTION_ID}/add`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(chromaData),
-    }
-  );
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(
-      `Failed to add points to Chroma: ${response.status} ${text}`
-    );
-  }
-
-  console.log(
-    "Successfully added points to Chroma collection:",
-    COLLECTION_NAME
-  );
 }
 
 main();
