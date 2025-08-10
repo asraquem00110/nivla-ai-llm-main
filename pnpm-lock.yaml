@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@chroma-core/default-embed':
+        specifier: ^0.1.8
+        version: 0.1.8
       '@hono/node-server':
         specifier: ^1.14.3
         version: 1.14.3(hono@4.7.11)
@@ -19,7 +22,7 @@ importers:
         version: 3.5.2
       '@langchain/community':
         specifier: ^0.3.45
-        version: 0.3.45(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.52.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(zod@3.25.51))(@huggingface/inference@4.3.0)(@huggingface/transformers@3.5.2)(@ibm-cloud/watsonx-ai@1.6.7)(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51)))(@langchain/ollama@0.2.1(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51))))(axios@1.9.0)(ibm-cloud-sdk-core@5.4.0)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.17.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(pdf-parse@1.1.1)(playwright@1.52.0)(weaviate-client@3.6.0)(ws@8.18.2)
+        version: 0.3.45(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.52.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(zod@3.25.51))(@huggingface/inference@4.3.0)(@huggingface/transformers@3.5.2)(@ibm-cloud/watsonx-ai@1.6.7)(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51)))(@langchain/ollama@0.2.1(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51))))(axios@1.9.0)(chromadb@3.0.11)(ibm-cloud-sdk-core@5.4.0)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.17.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(pdf-parse@1.1.1)(playwright@1.52.0)(weaviate-client@3.6.0)(ws@8.18.2)
       '@langchain/core':
         specifier: ^0.3.57
         version: 0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51))
@@ -29,6 +32,9 @@ importers:
       '@xenova/transformers':
         specifier: ^2.17.2
         version: 2.17.2
+      chromadb:
+        specifier: ^3.0.11
+        version: 3.0.11
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
@@ -101,6 +107,14 @@ packages:
 
   '@cfworker/json-schema@4.1.1':
     resolution: {integrity: sha512-gAmrUZSGtKc3AiBL71iNWxDsyUC5uMaKKGdvzYsBoTW/xi42JQHl7eKV2OYzCUqvc+D2RCcf7EXY2iCyFIk6og==}
+
+  '@chroma-core/ai-embeddings-common@0.1.7':
+    resolution: {integrity: sha512-9ToziKEz0gD+kkFKkZaeAUyGW0gRDVZcKtAmSO0d0xzFIVCkjWChND1VaHjvozRypEKzjjCqN8t1bzA+YxtBxQ==}
+    engines: {node: '>=20'}
+
+  '@chroma-core/default-embed@0.1.8':
+    resolution: {integrity: sha512-9FaSEvGhkO/JHud3SEwHn9BhqHHhcd8jBwI89hW+IBUu3peJ4O8Pq0CtQuuOulqhzhJMHP6Ya1HB4ESXwjEYdw==}
+    engines: {node: '>=20'}
 
   '@emnapi/runtime@1.4.3':
     resolution: {integrity: sha512-pBPWdu6MLKROBX05wSNKcNb++m5Er+KQ9QkB+WVM+pW2Kx9hoSrVTnu3BdkI5eBLZoKu/J6mW/B6i6bJB2ytXQ==}
@@ -1175,6 +1189,9 @@ packages:
     resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
+  ajv@8.17.1:
+    resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
+
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -1321,6 +1338,41 @@ packages:
   chownr@3.0.0:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
     engines: {node: '>=18'}
+
+  chromadb-js-bindings-darwin-arm64@1.0.2:
+    resolution: {integrity: sha512-5guic+WJIEo11PpcY185QuQleqd7vWOBUY7WFX8I211p1HuOblGyYd4erPtiuxlc/hatUm/Eb0nTEmAxJ11QaA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  chromadb-js-bindings-darwin-x64@1.0.2:
+    resolution: {integrity: sha512-0RpzX+kGfASetQU0svpv9esAH2Nt4o7jaCeNAqVCXVvE7Rnz6gaVtzL5qBvCP7O3ht10UkVX85b7gITRBe32tQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  chromadb-js-bindings-linux-arm64-gnu@1.0.2:
+    resolution: {integrity: sha512-fCRrFPI04+1bg/vO8eY9SxEXKk4PvT/DRfPpftMQB1w2gk68kRqEEpPj+lK9WP1nsTs1gq/qlbcf6oWs6MFJSw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  chromadb-js-bindings-linux-x64-gnu@1.0.2:
+    resolution: {integrity: sha512-gEojseuh+XeUz3fHUYJwsXJfo54LE3oi5Ra+btbHj9eUF7ywyI+b/DNYu8t9FACnHz0Dh2+m/UHT3B1Dflne+w==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  chromadb-js-bindings-win32-x64-msvc@1.0.2:
+    resolution: {integrity: sha512-od3qyUd7yyMI09AFia0ZXxt+YSlSE0Pf//JFJoWqmB45qWrWsXsONbk24RMWpkYTGMh7H6r3QdE+pVDRKqkfng==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  chromadb@3.0.11:
+    resolution: {integrity: sha512-Ikhx/CqRRhmvlpg7XNkzZowz4hwAOJvtSkfNG6D94dUky2Ivj4Bxt+xIS8D5ShHG2pS40PyPgEdllVjCRYNzgg==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
@@ -1505,12 +1557,18 @@ packages:
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
 
+  fast-deep-equal@3.1.3:
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
   fast-fifo@1.3.2:
     resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
+
+  fast-uri@3.0.6:
+    resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -1734,6 +1792,9 @@ packages:
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
+
+  json-schema-traverse@1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
   json-stringify-safe@5.0.1:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
@@ -2278,6 +2339,10 @@ packages:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
 
+  require-from-string@2.0.2:
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
+    engines: {node: '>=0.10.0'}
+
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
@@ -2701,6 +2766,15 @@ snapshots:
 
   '@cfworker/json-schema@4.1.1': {}
 
+  '@chroma-core/ai-embeddings-common@0.1.7':
+    dependencies:
+      ajv: 8.17.1
+
+  '@chroma-core/default-embed@0.1.8':
+    dependencies:
+      '@chroma-core/ai-embeddings-common': 0.1.7
+      '@huggingface/transformers': 3.5.2
+
   '@emnapi/runtime@1.4.3':
     dependencies:
       tslib: 2.8.1
@@ -2950,7 +3024,7 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
-  '@langchain/community@0.3.45(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.52.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(zod@3.25.51))(@huggingface/inference@4.3.0)(@huggingface/transformers@3.5.2)(@ibm-cloud/watsonx-ai@1.6.7)(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51)))(@langchain/ollama@0.2.1(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51))))(axios@1.9.0)(ibm-cloud-sdk-core@5.4.0)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.17.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(pdf-parse@1.1.1)(playwright@1.52.0)(weaviate-client@3.6.0)(ws@8.18.2)':
+  '@langchain/community@0.3.45(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.14.0(@playwright/test@1.52.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(zod@3.25.51))(@huggingface/inference@4.3.0)(@huggingface/transformers@3.5.2)(@ibm-cloud/watsonx-ai@1.6.7)(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51)))(@langchain/ollama@0.2.1(@langchain/core@0.3.57(openai@5.8.2(ws@8.18.2)(zod@3.25.51))))(axios@1.9.0)(chromadb@3.0.11)(ibm-cloud-sdk-core@5.4.0)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.17.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(pdf-parse@1.1.1)(playwright@1.52.0)(weaviate-client@3.6.0)(ws@8.18.2)':
     dependencies:
       '@browserbasehq/stagehand': 1.14.0(@playwright/test@1.52.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@5.8.2(ws@8.18.2)(zod@3.25.51))(zod@3.25.51)
       '@ibm-cloud/watsonx-ai': 1.6.7
@@ -2972,6 +3046,7 @@ snapshots:
       '@browserbasehq/sdk': 2.6.0
       '@huggingface/inference': 4.3.0
       '@huggingface/transformers': 3.5.2
+      chromadb: 3.0.11
       ignore: 5.3.2
       jsonwebtoken: 9.0.2
       lodash: 4.17.21
@@ -3310,6 +3385,13 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
+  ajv@8.17.1:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.0.6
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
+
   ansi-regex@5.0.1: {}
 
   ansi-regex@6.1.0: {}
@@ -3445,6 +3527,31 @@ snapshots:
   chownr@1.1.4: {}
 
   chownr@3.0.0: {}
+
+  chromadb-js-bindings-darwin-arm64@1.0.2:
+    optional: true
+
+  chromadb-js-bindings-darwin-x64@1.0.2:
+    optional: true
+
+  chromadb-js-bindings-linux-arm64-gnu@1.0.2:
+    optional: true
+
+  chromadb-js-bindings-linux-x64-gnu@1.0.2:
+    optional: true
+
+  chromadb-js-bindings-win32-x64-msvc@1.0.2:
+    optional: true
+
+  chromadb@3.0.11:
+    dependencies:
+      semver: 7.7.2
+    optionalDependencies:
+      chromadb-js-bindings-darwin-arm64: 1.0.2
+      chromadb-js-bindings-darwin-x64: 1.0.2
+      chromadb-js-bindings-linux-arm64-gnu: 1.0.2
+      chromadb-js-bindings-linux-x64-gnu: 1.0.2
+      chromadb-js-bindings-win32-x64-msvc: 1.0.2
 
   cliui@8.0.1:
     dependencies:
@@ -3621,6 +3728,8 @@ snapshots:
 
   extend@3.0.2: {}
 
+  fast-deep-equal@3.1.3: {}
+
   fast-fifo@1.3.2: {}
 
   fast-glob@3.3.3:
@@ -3630,6 +3739,8 @@ snapshots:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.8
+
+  fast-uri@3.0.6: {}
 
   fastq@1.19.1:
     dependencies:
@@ -3866,6 +3977,8 @@ snapshots:
   js-yaml@4.1.0:
     dependencies:
       argparse: 2.0.1
+
+  json-schema-traverse@1.0.0: {}
 
   json-stringify-safe@5.0.1: {}
 
@@ -4350,6 +4463,8 @@ snapshots:
   readdirp@4.1.2: {}
 
   require-directory@2.1.1: {}
+
+  require-from-string@2.0.2: {}
 
   requires-port@1.0.0: {}
 
