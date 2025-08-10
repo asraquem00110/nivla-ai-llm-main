@@ -4,10 +4,10 @@ import { pipeline } from "@xenova/transformers";
 import { EmbeddingsInterface } from "@langchain/core/embeddings";
 
 const CHROMA_URL = "http://localhost:9000/api/v2"; // Your ChromaDB URL
-const COLLECTION_NAME = "my-information";
-const COLLECTION_ID = "376b7001-914c-41ca-89f4-20fabccaec11";
-const TENANT_NAME = "default_tenant";
-const DATABASE_NAME = "default_database";
+const COLLECTION_NAME = "alvin";
+const COLLECTION_ID = "8026954b-caf2-4c67-85dc-118217693e39";
+const TENANT_NAME = "alvin";
+const DATABASE_NAME = "alvin";
 
 const basicInfo = {
   firstname: "Alvin",
@@ -19,23 +19,7 @@ const basicInfo = {
   hobbies: ["playing guitar", "watching animes", "playing dota2"],
 };
 
-class PrecomputedEmbeddings implements EmbeddingsInterface {
-  private embeddings: number[][];
-
-  constructor(embeddings: number[][]) {
-    this.embeddings = embeddings;
-  }
-
-  async embedDocuments(documents: string[]): Promise<number[][]> {
-    return this.embeddings;
-  }
-
-  async embedQuery(_text: string): Promise<number[]> {
-    throw new Error("embedQuery not implemented for precomputed embeddings.");
-  }
-}
-
-async function main() {
+async function storeEmbeddings() {
   const file = "../RAQUEM-RESUME.pdf";
   const loader = new PDFLoader(file, { splitPages: true });
   const docs = await loader.load();
@@ -70,7 +54,7 @@ async function main() {
     chunkEmbeddings.push(data.slice(i, i + dim));
   }
 
-  const ids = chunkString.map((content, index) => crypto.randomUUID.toString());
+  const ids = chunkString.map((content, index) => crypto.randomUUID());
 
   const chromaData = {
     documents: chunkString,
@@ -100,4 +84,38 @@ async function main() {
   );
 }
 
-// main();
+async function retrieveFromChroma(query: string) {
+  const embedder = await pipeline(
+    "feature-extraction",
+    "Xenova/all-MiniLM-L6-v2"
+  );
+
+  const queryTensor = await embedder([query], {
+    pooling: "mean",
+    normalize: true,
+  });
+  const queryEmbedding = Array.from(queryTensor.data);
+
+  const response = await fetch(
+    `${CHROMA_URL}/tenants/${TENANT_NAME}/databases/${DATABASE_NAME}/collections/${COLLECTION_ID}/query`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query_embeddings: [queryEmbedding],
+        n_results: 3, // Limit the number of results returned
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Failed to query Chroma: ${response.status} ${text}`);
+  }
+
+  const result = await response.json();
+  console.log("Query results:", result);
+  return result;
+}
+//storeEmbeddings();
+retrieveFromChroma("What are alvin's full name?");
