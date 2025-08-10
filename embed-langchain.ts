@@ -38,7 +38,7 @@ class PrecomputedEmbeddings implements EmbeddingsInterface {
 }
 
 // Custom local embedding wrapper
-class XenovaEmbeddings {
+class XenovaEmbeddings implements EmbeddingsInterface {
   constructor(private embedder: any) {}
 
   async embedQuery(text: string): Promise<number[]> {
