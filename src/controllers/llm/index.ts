@@ -17,14 +17,13 @@ export async function sendMessageController(c: Context, next: Next) {
   const tools = JSON.parse(reqTools as string);
 
   console.log("FILE:", file);
+  const lastMessage = messages[messages.length - 1]?.message;
 
   if (file) {
     // await FileUploadUtility.upload(file as File);
-    const lastMessage =
-      messages[(messages.length - 1) as unknown as number]?.message;
     ragContent = await RagUtility.embedFile(
       file as File,
-      lastMessage as unknown as string
+      lastMessage as string
     );
   }
 
@@ -53,6 +52,10 @@ export async function sendMessageController(c: Context, next: Next) {
     });
   }
 
+  const ragInternalContext = await RagUtility.retrieveFromChromaDB(
+    lastMessage as string
+  );
+
   const llmMessages = [
     {
       role: "system",
@@ -69,7 +72,9 @@ If you do not need to call a tool, respond with a plain text answer.
 
 You will also be provided with context relevant to the question. Use this context to guide your answer. If the context is insufficient, fall back on your own knowledge to respond.
 
-If you are unsure or cannot answer reliably, state that clearly.`,
+If you are unsure or cannot answer reliably, state that clearly.
+
+Here are the internal RAG context btw: ${ragInternalContext}`,
     },
     ...messages.map((msg: any) => ({
       role: msg.role,
